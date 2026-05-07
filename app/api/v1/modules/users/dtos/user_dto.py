@@ -45,6 +45,7 @@ class UserUpdate(BaseModel):
     full_name: str | None = Field(default=None, min_length=3, max_length=120)
     email: EmailStr | None = None
     is_active: bool | None = None
+    is_online: bool | None = None
 
 
 class UserResponse(DateTimeResponseModel):
@@ -55,6 +56,7 @@ class UserResponse(DateTimeResponseModel):
     id: int
     full_name: str
     email: EmailStr
+    is_online: bool
     is_active: bool
     is_superuser: bool
     last_login_at: datetime | None

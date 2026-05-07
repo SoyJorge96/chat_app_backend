@@ -11,11 +11,12 @@ Aunque a veces se parecen, no cumplen el mismo propósito.
 
 from datetime import datetime
 
-from sqlalchemy import Boolean, DateTime, String
+from sqlalchemy import Boolean, DateTime, String, false
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.api.v1.shared.utils.datetime_utils import current_datetime
 from app.core.db import Base
+
 
 class UserModel(Base):
     """Tabla `users`.
@@ -30,6 +31,9 @@ class UserModel(Base):
     full_name: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(
         String(120), unique=True, index=True, nullable=False
+    )
+    is_online: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=False, server_default=false()
     )
 
     # Nunca guardamos la contraseña real. Solo el hash.
@@ -53,4 +57,3 @@ class UserModel(Base):
         onupdate=current_datetime,
         nullable=False,
     )
-

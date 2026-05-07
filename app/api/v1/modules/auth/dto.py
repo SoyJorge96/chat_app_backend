@@ -58,6 +58,7 @@ class AuthenticatedUserResponse(DateTimeResponseModel):
     full_name: str
     email: EmailStr
     is_active: bool
+    is_online: bool
     is_superuser: bool
     last_login_at: datetime | None
     created_at: datetime
