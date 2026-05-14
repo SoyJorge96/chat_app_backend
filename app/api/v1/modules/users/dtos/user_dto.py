@@ -15,6 +15,7 @@ Este archivo solo describe y valida datos.
 """
 
 from datetime import datetime
+from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
@@ -53,7 +54,7 @@ class UserResponse(DateTimeResponseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
+    id: UUID
     full_name: str
     email: EmailStr
     is_online: bool

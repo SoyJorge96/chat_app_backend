@@ -4,6 +4,7 @@ Aquí definimos los contratos HTTP específicos de autenticación.
 """
 
 from datetime import datetime
+from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
@@ -54,7 +55,7 @@ class AuthenticatedUserResponse(DateTimeResponseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
+    id: UUID
     full_name: str
     email: EmailStr
     is_active: bool

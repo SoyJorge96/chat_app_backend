@@ -3,6 +3,8 @@
 Esta capa se encarga exclusivamente del acceso a datos.
 """
 
+from uuid import UUID
+
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -16,7 +18,7 @@ class UserRepository(BaseRepository[UserModel]):
     def __init__(self, db: Session) -> None:
         super().__init__(db=db, model=UserModel)
 
-    def get_by_id(self, user_id: int) -> UserModel | None:
+    def get_by_id(self, user_id: UUID) -> UserModel | None:
         statement = select(UserModel).where(UserModel.id == user_id)
         return self.db.execute(statement).scalar_one_or_none()
 
@@ -25,7 +27,12 @@ class UserRepository(BaseRepository[UserModel]):
         return self.db.execute(statement).scalar_one_or_none()
 
     def list_all(self, *, offset: int, limit: int) -> tuple[list[UserModel], int]:
-        items_statement = select(UserModel).order_by(UserModel.id.desc()).offset(offset).limit(limit)
+        items_statement = (
+            select(UserModel)
+            .order_by(UserModel.created_at.desc())
+            .offset(offset)
+            .limit(limit)
+        )
         total_statement = select(func.count()).select_from(UserModel)
 
         items = list(self.db.execute(items_statement).scalars().all())

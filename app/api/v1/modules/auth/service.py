@@ -13,6 +13,8 @@ Este archivo coordina:
 - `app.core.security` para hashing y JWT
 """
 
+from uuid import UUID
+
 from app.api.v1.modules.auth.dto import (
     AuthenticatedUserResponse,
     LoginRequest,
@@ -179,14 +181,14 @@ class AuthService:
 
         return payload
 
-    def _extract_user_id(self, payload: dict) -> int:
-        """Extrae el `sub` y lo convierte a int."""
+    def _extract_user_id(self, payload: dict) -> UUID:
+        """Extrae el `sub` y lo convierte a UUID."""
         raw_subject = payload.get("sub")
         if raw_subject is None:
             raise UnauthorizedError(detail="Token sin subject")
 
         try:
-            return int(raw_subject)
+            return UUID(raw_subject)
         except (TypeError, ValueError) as exc:
             raise UnauthorizedError(detail="Subject de token inválido") from exc
 

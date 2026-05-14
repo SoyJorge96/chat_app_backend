@@ -3,6 +3,8 @@
 Aquí vive la lógica de negocio del dominio users.
 """
 
+from uuid import UUID
+
 from app.api.v1.shared.dtos.pagination_dto import PaginationMeta
 from app.api.v1.modules.users.dtos.user_dto import UserCreate, UserListResponse, UserResponse, UserUpdate
 from app.api.v1.modules.users.repositories.user_repository import UserRepository
@@ -31,7 +33,7 @@ class UserService:
             ),
         )
 
-    def get_user(self, user_id: int) -> UserResponse:
+    def get_user(self, user_id: UUID) -> UserResponse:
         user = self.repository.get_by_id(user_id)
         if user is None:
             raise NotFoundError(detail=f"No existe un usuario con id={user_id}")
@@ -51,7 +53,7 @@ class UserService:
         )
         return UserResponse.model_validate(user)
 
-    def update_user(self, user_id: int, payload: UserUpdate) -> UserResponse:
+    def update_user(self, user_id: UUID, payload: UserUpdate) -> UserResponse:
         user = self.repository.get_by_id(user_id)
         if user is None:
             raise NotFoundError(detail=f"No existe un usuario con id={user_id}")

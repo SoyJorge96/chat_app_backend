@@ -6,6 +6,8 @@ En esta versión de la plantilla, los endpoints de `users` quedan protegidos con
 Bearer auth para mostrar cómo aplicar autenticación a otros módulos.
 """
 
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, Query, status
 
 from app.api.v1.modules.auth.dependencies import CurrentUser
@@ -33,7 +35,7 @@ def list_users(
 
 @router.get("/{user_id}", response_model=UserResponse)
 def get_user(
-    user_id: int,
+    user_id: UUID,
     _current_user: CurrentUser,
     service: UserService = Depends(get_user_service),
 ) -> UserResponse:
@@ -57,7 +59,7 @@ def create_user(
 
 @router.patch("/{user_id}", response_model=UserResponse)
 def update_user(
-    user_id: int,
+    user_id: UUID,
     payload: UserUpdate,
     _current_user: CurrentUser,
     service: UserService = Depends(get_user_service),

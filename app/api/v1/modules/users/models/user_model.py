@@ -10,8 +10,9 @@ Aunque a veces se parecen, no cumplen el mismo propósito.
 """
 
 from datetime import datetime
+from uuid import UUID, uuid4
 
-from sqlalchemy import Boolean, DateTime, String, false
+from sqlalchemy import Boolean, DateTime, String, Uuid, false
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.api.v1.shared.utils.datetime_utils import current_datetime
@@ -27,7 +28,7 @@ class UserModel(Base):
 
     __tablename__ = "user_users"
 
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid4)
     full_name: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(
         String(120), unique=True, index=True, nullable=False

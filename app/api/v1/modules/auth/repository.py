@@ -4,6 +4,8 @@ Esta capa gestiona persistencia específica de autenticación, principalmente
 refresh tokens guardados en base de datos.
 """
 
+from uuid import UUID
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -25,7 +27,7 @@ class AuthRepository(BaseRepository[RefreshToken]):
     def create_refresh_token(
         self,
         *,
-        user_id: int,
+        user_id: UUID,
         jti: str,
         token_hash: str,
         expires_at,
